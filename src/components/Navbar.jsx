@@ -78,7 +78,7 @@ const Navbar = () => {
             )}
 
             {/* Mobile Navbar Toggle */}
-            {isLoggedIn && (
+            {!isLoggedIn && (
               <button onClick={toggleNavbar} className="lg:hidden">
                 {mobileDrawerOpen ? <X /> : <Menu />}
               </button>
