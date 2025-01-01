@@ -50,7 +50,7 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex space-x-4 items-center">
-            {!isLoggedIn ? (
+            {isLoggedIn ? (
               // User Icon
               <div className="hidden lg:flex space-x-4">
                 <button
