@@ -4,12 +4,14 @@ import logo from "../assets/logo.png";
 import { navItems } from "../constants";
 import Login from "./Login";
 import Register from "./Register";
+import user from "../assets/user.png";
 
 const Navbar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [loginFormVisible, setLoginFormVisible] = useState(false);
   const [registerFormVisible, setRegisterFormVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [userMenuVisible, setUserMenuVisible] = useState(false); // State for user dropdown
 
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
@@ -28,6 +30,16 @@ const Navbar = () => {
   const handleLoginSuccess = () => {
     setIsLoggedIn(true); // Set login status to true
     setLoginFormVisible(false); // Close the login form
+  };
+
+  const toggleUserMenu = () => {
+    setUserMenuVisible(!userMenuVisible); // Toggle the user dropdown menu
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserMenuVisible(false);
+    // Add logout logic here (e.g., clearing tokens, redirecting)
   };
 
   return (
@@ -51,7 +63,37 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="flex space-x-4 items-center">
             {isLoggedIn ? (
-              // User Icon
+              <div className="relative">
+                <img
+                  src={user}
+                  alt="User Icon"
+                  className="h-8 w-8 rounded-full cursor-pointer"
+                  onClick={toggleUserMenu}
+                />
+                {/* Dropdown Menu */}
+                {userMenuVisible && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+                    <ul className="text-gray-700">
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          console.log("User Settings clicked");
+                        }}
+                      >
+                        User Settings
+                      </li>
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Login and Register Buttons
               <div className="hidden lg:flex space-x-4">
                 <button
                   onClick={toggleLoginForm}
@@ -66,15 +108,6 @@ const Navbar = () => {
                   Create an account
                 </button>
               </div>
-            ) : (
-              <div className="relative">
-                <img
-                  src="/path/to/user-icon.png"
-                  alt="User Icon"
-                  className="h-8 w-8 rounded-full cursor-pointer"
-                />
-              </div>
-              // Login and Register Buttons
             )}
 
             {/* Mobile Navbar Toggle */}
